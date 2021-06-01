@@ -1,1 +1,38 @@
-function [x]=Seidel_Pivo(A,b,x,tol,N,x0 = x,iter = 1)n = size(A,1);for i=1:nprintf(’\tx%d ’,i);end; printf(’ Erro\n’)#Pivoteamentonb = n+1;Aug = [A b];for k = 1:n-1[big,i] = max(abs(Aug(k:n,k)));ipr = i+k-1;if ipr ~= kAug([k,ipr],:)=Aug([ipr,k],:);endfor i = k+1:npivor = Aug(i,k)/Aug(k,k);Aug(i,k:nb) = Aug(i,k:nb)-pivor*Aug(k,k:nb);endend; A=Aug(:,1:n); b=Aug(:,nb);#Resolução do sistemawhile (iter <= N)for i = 1:nx(i) = (b(i) - A(i,[1:i-1,i+1:n])*x([1:i-1,i+1:n]))/A(i,i);endfor;printf(’%d ’,iter)#Imprimindo valoresfor i=1:nprintf(’ %1.7f ’,x(i));end; printf(’%1.7f\n’,norm(x-x0,’inf’));#condicao de paradaif (norm(x-x0,’inf’)<tol)returnendif#prepara nova iteracaox0 = x;iter += 1;endwhileCapítulo 3. Metodologia 12error(’num. max. iter. excedido.’)endfunction
+function [x]=Seidel_Pivo(A,b,x,tol,N,x0 = x,iter = 1)
+  n = size(A,1);
+  for i=1:n
+  printf(â€™\tx%d â€™,i);
+  end; printf(â€™ Erro\nâ€™)
+  #Pivoteamento
+  nb = n+1;
+  Aug = [A b];
+  for k = 1:n-1
+    [big,i] = max(abs(Aug(k:n,k)));
+    ipr = i+k-1;
+    if ipr ~= k
+    Aug([k,ipr],:)=Aug([ipr,k],:);
+    end
+    for i = k+1:n
+    pivor = Aug(i,k)/Aug(k,k);
+    Aug(i,k:nb) = Aug(i,k:nb)-pivor*Aug(k,k:nb);
+    end
+  end; A=Aug(:,1:n); b=Aug(:,nb);
+  #ResoluÃ§Ã£o do sistema
+  while (iter <= N)
+    for i = 1:n
+    x(i) = (b(i) - A(i,[1:i-1,i+1:n])*x([1:i-1,i+1:n]))/A(i,i);
+    endfor;printf(â€™%d â€™,iter)
+    #Imprimindo valores
+    for i=1:n
+    printf(â€™ %1.7f â€™,x(i));
+    end; printf(â€™%1.7f\nâ€™,norm(x-x0,â€™infâ€™));
+    #condicao de parada
+    if (norm(x-x0,â€™infâ€™)<tol)
+    return
+    endif
+    #prepara nova iteracao
+    x0 = x;
+    iter += 1;
+  endwhile
+  error(â€™num. max. iter. excedido.â€™)
+endfunction
